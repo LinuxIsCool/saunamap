@@ -261,7 +261,7 @@ export default function MapComponent({ markers, session, locArray, setLoaded }) 
             ref={mapRef}
             onMove={evt => setViewState(evt.viewState)}
             style={{width: '100%', height: '100vh'}}
-            mapStyle="mapbox://styles/hudsonyuen/cldahfklh000m01phstp7i9sb"
+            mapStyle="mapbox://styles/mapbox/outdoors-v12"
             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN}
             onClick={(evt) => handleClick(evt)}
             cursor={cursorType}
