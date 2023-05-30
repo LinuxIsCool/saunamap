@@ -1,26 +1,26 @@
-import { getServerSession } from "next-auth"
 import Head from "next/head";
 import { useSession } from "next-auth/react";
-import { authOptions } from "./api/auth/[...nextauth]"
-import Layout from "../src/components/layout"
-import { prisma } from "../src/prisma";
+import Layout from "../components/layout"
+import { prisma } from "../prisma";
 import { useMemo, Fragment, useState } from "react";
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 import { MapIcon } from "@heroicons/react/24/outline";
 import { Menu, Transition } from '@headlessui/react'
-import DeleteModal from "../src/components/deleteModal";
-import CrosswalkPanel from "../src/components/crosswalkPanel";
+import DeleteModal from "../components/deleteModal";
+import CrosswalkPanel from "../components/crosswalkPanel";
+import { useUser } from "@clerk/nextjs";
+import { getAuth, clerkClient } from "@clerk/nextjs/server";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
 export default function MyCrosswalks({ crosswalkData }) {
+  console.log("MyCrosswalks");
     const [deleteOpen, setDeleteOpen] = useState(false)
     const [panelOpen, setPanelOpen] = useState(false)
     const [currCrosswalk, setCurrCrosswalk] = useState(null)
-
-    const { data: session, status } = useSession()
 
     const handleDelete = (crosswalk) => {
       setCurrCrosswalk(crosswalk)
@@ -31,6 +31,9 @@ export default function MyCrosswalks({ crosswalkData }) {
       setCurrCrosswalk(crosswalk)
       setPanelOpen(true)
     }
+
+
+
 
     return (
       <>
@@ -141,9 +144,10 @@ export default function MyCrosswalks({ crosswalkData }) {
 
 
 export async function getServerSideProps(context) {
-    const session = await getServerSession(context.req, context.res, authOptions)
-    
-    if (!session) {
+    //const session = await getServerSession(context.req, context.res, authOptions)
+  const { userId } = getAuth(context.req);
+
+    if (!userId) {
       return {
         redirect: {
           destination: '/404',
@@ -151,12 +155,17 @@ export async function getServerSideProps(context) {
         },
       }
     }
+
+    const user = userId ? await clerkClient.users.getUser(userId) : undefined;
+  console.log(user);
     
     const data = await prisma.crosswalk.findMany({
         where: {
-            userId: session.user.email
+            userId: user.emailAddresses[0].emailAddress
         }
     })
+
+  console.log(data);
 
     // const offlineData = [
     //   {
@@ -187,7 +196,7 @@ export async function getServerSideProps(context) {
   
     return {
       props: {
-        session,
+        userId,
         crosswalkData: JSON.parse(JSON.stringify(data)),
         // crosswalkData: offlineData
       },

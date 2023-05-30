@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ['images.clerk.dev'],
+  },
   env: {
     NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN: process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN,
   },
@@ -8,7 +11,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/-79.4005188,43.6622882,12',
+        destination: '/pages/-79.4005188,43.6622882,12',
         permanent: true,
       },
     ]

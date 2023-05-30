@@ -11,7 +11,7 @@ import MaxModal from "./maxModal";
 import Copied from "./copied";
 import { useRouter } from "next/router";
 
-export default function MapComponent({ markers, session, locArray, setLoaded }) {
+export default function MapComponent({ markers, user, isSignedIn, locArray, setLoaded }) {
   const [modalOpen, setModalOpen] = useState(false)
   const [modalMaxOpen, setMaxModalOpen] = useState(false)
   const [panelOpen, setPanelOpen] = useState(false)
@@ -53,24 +53,26 @@ export default function MapComponent({ markers, session, locArray, setLoaded }) 
 
 
   const handleAddClick = async () => {
-    if (!session) {
+    if (!isSignedIn) {
       setModalOpen(true)
       return
     }
 
     // Check if user has hit upload limit, currently 5
-    const userId = session.user.email;
-    await axios.post("/api/db/checkUser", {
-      userId
-    }).then(response => {
-      if (response.data._count.id >= 5) {
-        setMaxModalOpen(true)
-        return
-      } else {
-        setAddActive(true)
-        setCursorType('crosshair')
-      }
-    })
+    //const userId = user.email;
+    //await axios.post("/api/db/checkUser", {
+      //userId
+    //}).then(response => {
+      //if (response.data._count.id >= 5) {
+        //setMaxModalOpen(true)
+        //return
+      //} else {
+        //setAddActive(true)
+        //setCursorType('crosshair')
+      //}
+    //})
+    setAddActive(true)
+    setCursorType('crosshair')
   }
 
   const handleCancel = () => {
@@ -80,9 +82,9 @@ export default function MapComponent({ markers, session, locArray, setLoaded }) 
   }
 
   const checkCrosswalk = async (crosswalk) => {
-    if (session) {
+    if (isSignedIn) {
       const markerId = crosswalk.id;
-      const userId = session.user.email;
+      const userId = user.emailAddresses[0].emailAddress;
   
       await axios.post("/api/db/checkCrosswalk", {
         userId, markerId
@@ -97,14 +99,14 @@ export default function MapComponent({ markers, session, locArray, setLoaded }) 
   }
 
   const handleUpvote = async (crosswalk) => {
-    if (!session) {
+    if (!isSignedIn) {
       console.log('need auth')
       setModalOpen(true)
       return
     }
 
     const markerId = popupInfo.marker.id;
-    const userId = session.user.email;
+    const userId = user.emailAddresses[0].emailAddress;
 
     // If not voted yet, add a vote
     if (!popupInfo.upvoted) {
@@ -261,12 +263,13 @@ export default function MapComponent({ markers, session, locArray, setLoaded }) 
             ref={mapRef}
             onMove={evt => setViewState(evt.viewState)}
             style={{width: '100%', height: '100vh'}}
-            mapStyle="mapbox://styles/mapbox/outdoors-v12"
+            mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
             mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN}
             onClick={(evt) => handleClick(evt)}
             cursor={cursorType}
             maxZoom={20}
             minZoom={3}
+            dragRotate={false}
             onLoad={() => setLoaded(true)}
           >
             {marker && 
@@ -313,7 +316,7 @@ export default function MapComponent({ markers, session, locArray, setLoaded }) 
             )}
           </Map>
         </div>
-        <CrosswalkPanel open={panelOpen} setOpen={setPanelOpen} marker={marker} session={session} edit={false}/>
+        <CrosswalkPanel open={panelOpen} setOpen={setPanelOpen} marker={marker} user={user} isSignedIn={isSignedIn} edit={false}/>
         <AuthModal open={modalOpen} setOpen={setModalOpen} viewState={viewState}/>
         <MaxModal open={modalMaxOpen} setOpen={setMaxModalOpen}/>
         <Copied show={showCopied} setShow={setShowCopied}/>

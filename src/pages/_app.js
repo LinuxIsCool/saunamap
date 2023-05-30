@@ -1,6 +1,6 @@
 import '../styles/globals.css'
-import { SessionProvider } from "next-auth/react"
 import PlausibleProvider from 'next-plausible'
+import { ClerkProvider } from '@clerk/nextjs'
 
 export default function App({
   Component,
@@ -8,9 +8,9 @@ export default function App({
 }) {
   return (
     <PlausibleProvider domain="crossywalk.com">
-      <SessionProvider session={session}>
+      <ClerkProvider {...pageProps}>
         <Component {...pageProps} />
-      </SessionProvider>
+        </ClerkProvider>
     </PlausibleProvider>
-  )
+  );
 }

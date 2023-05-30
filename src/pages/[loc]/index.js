@@ -1,18 +1,16 @@
-import { getServerSession } from "next-auth/next"
-import { useSession } from "next-auth/react"
-import { prisma } from "../../src/prisma"
+import { prisma } from "../../prisma"
 import { useState } from "react"
-
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import Head from 'next/head'
 import Image from 'next/image'
 import { ArrowPathIcon } from "@heroicons/react/24/outline"
-import Layout from "../../src/components/layout"
-import Places from "../../src/components/crosswalkForm"
+import Layout from "../../components/layout"
+import Places from "../../components/crosswalkForm"
 import { authOptions } from "../api/auth/[...nextauth]"
 
 export default function Home({ markers, locArray }) {
-    const { data: session, status } = useSession()
-    
+    const {user} = useUser()    
+  const { isLoaded: userLoaded, isSignedIn } = useUser()
     const [loaded, setLoaded] = useState(false);
     
     // // OFFLINE DEV
@@ -35,14 +33,14 @@ export default function Home({ markers, locArray }) {
       
       {!loaded && <div className="flex h-screen">
         <div className="m-auto">
-        <ArrowPathIcon className="h-10 w-10 mx-auto animate-spin text-gray-500"/>
+        <ArrowPathIcon className="w-10 h-10 mx-auto text-gray-500 animate-spin"/>
         </div>
       </div>}
 
       <Layout 
       main={        
         <div>
-          <Places markers={markers} session={session} locArray={locArray} setLoaded={setLoaded}/>
+          <Places markers={markers} user={user} isSignedIn={isSignedIn} locArray={locArray} setLoaded={setLoaded}/>
         </div>
       }/>
       
@@ -51,8 +49,7 @@ export default function Home({ markers, locArray }) {
 }
 
 export async function getServerSideProps(context) {
-  const session = await getServerSession(context.req, context.res, authOptions)
-  
+
   // Quick check that query contains valid location
   const loc = context.query.loc;
   const locArray = loc.split(",")
@@ -67,7 +64,6 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      session,
       markers: JSON.parse(JSON.stringify(markers)),
       locArray: JSON.parse(JSON.stringify(locArray)),
     },

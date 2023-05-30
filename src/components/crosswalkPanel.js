@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import axios from 'axios'
 
-export default function CrosswalkPanel({ open, setOpen, marker, session, edit }) {
+export default function CrosswalkPanel({ open, setOpen, marker, user, isSignedIn, edit }) {
   
   const [form, setForm] = useState(() => {
     if (!edit) {
@@ -35,8 +35,8 @@ export default function CrosswalkPanel({ open, setOpen, marker, session, edit })
       alert('fill in the damn form')
     }
 
-    const userId = session.user.email;
-    const userName = session.user.name;
+    const userId = user.emailAddresses[0].emailAddress;
+    const userName = user.firstName;
     const lat = marker.lat;
     const lng = marker.lng;
     const address = form.address;
@@ -71,7 +71,7 @@ export default function CrosswalkPanel({ open, setOpen, marker, session, edit })
     
     
   }
-  return ( session &&
+  return ( isSignedIn &&
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
       <Transition.Child
@@ -166,9 +166,9 @@ export default function CrosswalkPanel({ open, setOpen, marker, session, edit })
                               
                                 <h3 className="text-lg font-medium leading-6 text-gray-900 mb-6">Your suggestion will be live shortly after you submit.</h3>
                                 <p className="mt-1 text-sm text-gray-600 mb-2">
-                                  Your name <span className='font-medium text-gray-900'>({session.user.name})</span> will be displayed alongside your suggestion.
+                                  Your name <span className='font-medium text-gray-900'>({user.firstName})</span> will be displayed alongside your suggestion.
                                 </p>
-                                <p className="block text-sm text-gray-600">In case of any issues, we'll contact you at: <span className='font-medium'>{session.user.email}</span></p>
+                                <p className="block text-sm text-gray-600">In case of any issues, we'll contact you at: <span className='font-medium'>{user.firstName}</span></p>
                                 
                             </div>
                           </div>

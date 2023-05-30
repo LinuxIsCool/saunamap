@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import MapComponent from "./map";
 
 
-export default function Places({ markers, session, locArray, setLoaded }) {
+export default function Places({ markers, user, isSignedIn, locArray, setLoaded }) {
     const [selected, setSelected] = useState(null);
     
     useEffect(() => {
@@ -14,6 +14,6 @@ export default function Places({ markers, session, locArray, setLoaded }) {
     
     
     return (
-        <MapComponent markers={markers} session={session} locArray={locArray} setLoaded={setLoaded}/>        
+        <MapComponent markers={markers} user={user} isSignedIn={isSignedIn} locArray={locArray} setLoaded={setLoaded}/>        
     );
 }
