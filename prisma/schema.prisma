@@ -49,13 +49,7 @@ model Sauna {
   @@index([userId], name: "crosswalks.userId")
 }
 
-model UpVote {
-  id          Int      @id @default(autoincrement())
-  userId      String   @unique
-  saunaId     String   @unique
-}
-
-model DownVote {
+model UserVote {
   id          Int      @id @default(autoincrement())
   userId      String   @unique
   saunaId     String   @unique

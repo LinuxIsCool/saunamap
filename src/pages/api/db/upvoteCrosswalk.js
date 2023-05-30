@@ -1,6 +1,4 @@
-import { prisma } from "../../../src/prisma";
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "../auth/[...nextauth]";
+import { prisma } from "../../../prisma";
 
 export default async function upvoteCrosswalk(req, res) {
     const { userId, markerId } = req.body;
@@ -39,7 +37,7 @@ export default async function upvoteCrosswalk(req, res) {
           await prisma.userVote.create({
             data: {
               userId: userId,
-              upvoted: [markerId]
+              saunaId: markerId.toString(),
             }
           })
         }
