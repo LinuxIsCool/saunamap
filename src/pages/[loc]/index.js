@@ -11,6 +11,8 @@ import { authOptions } from "../api/auth/[...nextauth]"
 export default function Home({ markers, locArray }) {
     const {user} = useUser()    
   const { isLoaded: userLoaded, isSignedIn } = useUser()
+  console.log("isSignedIn:");
+  console.log(isSignedIn);
     const [loaded, setLoaded] = useState(false);
     
     // // OFFLINE DEV
@@ -40,7 +42,7 @@ export default function Home({ markers, locArray }) {
       <Layout 
       main={        
         <div>
-          <Places markers={markers} user={user} isSignedIn={isSignedIn} locArray={locArray} setLoaded={setLoaded}/>
+          <Places markers={markers} locArray={locArray} setLoaded={setLoaded}/>
         </div>
       }/>
       
@@ -60,7 +62,13 @@ export async function getServerSideProps(context) {
   // // OFFLINE DEV
   // const markers = []
 
-  const markers = await prisma.crosswalk.findMany();
+  const markers = await prisma.crosswalk.findMany({
+      include: {
+          _count: {
+              select: { userVotes: true }
+          }
+      }
+  });
 
   return {
     props: {

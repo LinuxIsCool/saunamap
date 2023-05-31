@@ -10,11 +10,8 @@ import { PlusIcon } from "@heroicons/react/20/solid";
 import MaxModal from "./maxModal";
 import Copied from "./copied";
 import { useRouter } from "next/router";
-import { useUser } from "@clerk/nextjs";
 
-export default function MapComponent({ markers, locArray, setLoaded }) {
-  const {user} = useUser()    
-  const { isLoaded: userLoaded, isSignedIn } = useUser()
+export default function MapComponent({ markers, user, isSignedIn, locArray, setLoaded }) {
   const [modalOpen, setModalOpen] = useState(false)
   const [modalMaxOpen, setMaxModalOpen] = useState(false)
   const [panelOpen, setPanelOpen] = useState(false)
@@ -34,11 +31,10 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
   const [marker, setMarker] = useState(null) // could memo later if necessary
 
   const locations = [
-    {name: 'Dallas Road', long: -123.361940, lat: 48.408510},
-    {name: 'Willows Beach', long: -123.303606, lat: 48.433760},
-    {name: 'Esquimalt Lagoon', long: -123.419159, lat: 48.430321},
-    {name: 'Tofino', long: -125.906616, lat: 49.152985},
-    {name: 'Pender Island', long: -123.2894 , lat: 48.7867},
+    {name: 'Toronto', long: -79.4005188, lat: 43.6622882},
+    {name: 'NYC', long: -73.960412, lat: 40.750808},
+    {name: 'London', long: -0.075278, lat: 51.505554},
+    {name: 'HK', long: 114.163589, lat: 22.273643},
   ]
 
   const mapContainer = useRef(null);
@@ -57,7 +53,6 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
 
 
   const handleAddClick = async () => {
-    console.log(isSignedIn);
     if (!isSignedIn) {
       setModalOpen(true)
       return
@@ -86,11 +81,7 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
     setMarker(null)
   }
 
-  const checkCrosswalk = async (crosswalk, isSignedIn) => {
-    console.log("Test...")
-    console.log("isSignedIn:");
-    console.log(isSignedIn);
-    console.log(user);
+  const checkCrosswalk = async (crosswalk) => {
     if (isSignedIn) {
       const markerId = crosswalk.id;
       const userId = user.emailAddresses[0].emailAddress;
@@ -98,14 +89,11 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
       await axios.post("/api/db/checkCrosswalk", {
         userId, markerId
       }).then(response => {
-        console.log("Test");
-        console.log(response);
         setPopupInfo({marker: response.data.marker, upvoted: response.data.upvoted})
       }).catch(error => {
         console.log(error.response.data)
       })
     } else {
-      console.log("Not signed in.")
       setPopupInfo({marker: crosswalk, upvoted: false})
     }
   }
@@ -135,7 +123,7 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
         console.log(error.response.data)
       })
     }
-    checkCrosswalk(crosswalk, isSignedIn)
+    checkCrosswalk(crosswalk)
   }
   
   const copyLink = (info) => {
@@ -162,6 +150,7 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
           zoom: 18,
           speed: 1.8,
         })
+        console.log(selected)
     }
   }, [selected])
 
@@ -190,7 +179,7 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
             // Prevent autoclose
             e.originalEvent.stopPropagation();
             
-            checkCrosswalk(marker, isSignedIn);
+            checkCrosswalk(marker);
             mapRef.current?.flyTo({
               center: [marker.longitude, marker.latitude],
               zoom: 19,
@@ -201,7 +190,7 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
           <img className="w-10 h-10" src="/crosswalk.svg"/>
         </Marker>
       )),
-    [isSignedIn, checkCrosswalk, markers]
+    []
   );
 
   return (
@@ -320,7 +309,7 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
                   <HeartIcon className="w-6 h-6 cursor-pointer" onClick={() => handleUpvote(popupInfo.marker)}/>
                   
                 }
-                  <p className="my-auto text-sm text-gray-700">{popupInfo.marker._count.userVotes}</p>
+                  <p className="my-auto text-sm text-gray-700">{popupInfo.marker.userVotes}</p>
                 </div>
                 </div>
               </Popup>

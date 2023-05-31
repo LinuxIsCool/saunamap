@@ -15,9 +15,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-
 export default function MyCrosswalks({ crosswalkData }) {
   console.log("MyCrosswalks");
+    const {user} = useUser()    
+    const { isLoaded: userLoaded, isSignedIn } = useUser()
     const [deleteOpen, setDeleteOpen] = useState(false)
     const [panelOpen, setPanelOpen] = useState(false)
     const [currCrosswalk, setCurrCrosswalk] = useState(null)
@@ -32,9 +33,6 @@ export default function MyCrosswalks({ crosswalkData }) {
       setPanelOpen(true)
     }
 
-
-
-
     return (
       <>
         <Head>
@@ -44,20 +42,20 @@ export default function MyCrosswalks({ crosswalkData }) {
           <link rel="icon" href="/crosswalk.svg" />
         </Head>
         <Layout main={
-            <div className="pt-20 lg:pt-6 px-6 bg-slate-100 h-full">
+            <div className="h-full px-6 pt-20 lg:pt-6 bg-slate-100">
                 <h1 className="text-2xl">My Crosswalks</h1>
-                <ul role="list" className="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 auto-rows-max">
+                <ul role="list" className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 auto-rows-max">
 
                 {crosswalkData.map((crosswalk) => (
-                  <li key={crosswalk.id} className="col-span-1 rounded-lg bg-white shadow">
-                  <div className="p-4 flex flex-col gap-4 h-full">
+                  <li key={crosswalk.id} className="bg-white rounded-lg shadow col-span-1">
+                  <div className="flex flex-col h-full p-4 gap-4">
                     <div className="flex justify-between">
                       <h1>{crosswalk.address}</h1>
                       <Menu as="div" className="relative inline-block text-left">
                         <div>
-                          <Menu.Button className="flex items-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+                          <Menu.Button className="flex items-center text-gray-400 bg-gray-100 rounded-full hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
                             <span className="sr-only">Open options</span>
-                            <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
+                            <EllipsisVerticalIcon className="w-5 h-5" aria-hidden="true" />
                           </Menu.Button>
                         </div>
 
@@ -70,7 +68,7 @@ export default function MyCrosswalks({ crosswalkData }) {
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Items className="absolute right-0 z-10 w-40 mt-2 bg-white shadow-lg origin-top-right rounded-md ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <div className="py-1">
                               <Menu.Item>
                                 {({ active }) => (
@@ -82,7 +80,7 @@ export default function MyCrosswalks({ crosswalkData }) {
                                   onClick={() => window.location.replace(`/${crosswalk.longitude},${crosswalk.latitude},18`)}
                                 >
                                   <p className="my-auto">Show on map</p>
-                                  <MapIcon className="h-6 w-6 pl-2"/>
+                                  <MapIcon className="w-6 h-6 pl-2"/>
                                 </button>
                                 )}
                               </Menu.Item>
@@ -118,10 +116,10 @@ export default function MyCrosswalks({ crosswalkData }) {
                       </Menu>
                     </div>
                     <p className="text-sm">{crosswalk.description}</p>
-                    {crosswalk.votes !== 1?
-                      <p className="mt-auto">{crosswalk.votes} likes</p>
+                    {crosswalk._count.userVotes !== 1?
+                      <p className="mt-auto">{crosswalk._count.userVotes} likes</p>
                       :
-                      <p className="mt-auto">{crosswalk.votes} like</p>
+                      <p className="mt-auto">{crosswalk._count.userVotes} like</p>
                     }
                     
                   </div>
@@ -132,7 +130,7 @@ export default function MyCrosswalks({ crosswalkData }) {
                 {currCrosswalk && 
                   <div>
                     <DeleteModal key={currCrosswalk.id} open={deleteOpen} setOpen={setDeleteOpen} marker={currCrosswalk}/>
-                    <CrosswalkPanel key={currCrosswalk.id} open={panelOpen} setOpen={setPanelOpen} marker={currCrosswalk} session={session} edit={true}/>
+                    <CrosswalkPanel key={currCrosswalk.id} open={panelOpen} setOpen={setPanelOpen} marker={currCrosswalk} isSignedIn={isSignedIn} user={user} edit={true}/>
                   </div>
                 }
                 
@@ -158,12 +156,18 @@ export async function getServerSideProps(context) {
 
     const user = userId ? await clerkClient.users.getUser(userId) : undefined;
   console.log(user);
-    
-    const data = await prisma.crosswalk.findMany({
+
+      const data = await prisma.crosswalk.findMany({
         where: {
             userId: user.emailAddresses[0].emailAddress
+        },
+
+        include: {
+            _count: {
+                select: { userVotes: true }
+            }
         }
-    })
+    });
 
   console.log(data);
 

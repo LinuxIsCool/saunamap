@@ -1,10 +1,9 @@
-import { prisma } from "../../../../src/prisma";
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "../../auth/[...nextauth]";
+import { prisma } from "../../../../prisma";
+import { getAuth } from "@clerk/nextjs/server";
 
 export default async function deleteCrosswalk(req, res) {
-    const session = await getServerSession(req, res, authOptions)
-    if (!session) {
+    const { userId } = getAuth(req);
+    if (!userId) {
       res.status(401).send('No permissions')
       return
     }

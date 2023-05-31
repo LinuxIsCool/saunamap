@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
 import MapComponent from "./map";
+import { useUser } from "@clerk/nextjs";
 
 
-export default function Places({ markers, user, isSignedIn, locArray, setLoaded }) {
+export default function Places({ markers, locArray, setLoaded }) {
+
+    const {user} = useUser()    
+      const { isLoaded: userLoaded, isSignedIn } = useUser()
     const [selected, setSelected] = useState(null);
     
     useEffect(() => {
@@ -13,7 +17,10 @@ export default function Places({ markers, user, isSignedIn, locArray, setLoaded 
     }, [selected])
     
     
+  console.log("isSignedIn:");
+  console.log(isSignedIn);
+
     return (
-        <MapComponent markers={markers} user={user} isSignedIn={isSignedIn} locArray={locArray} setLoaded={setLoaded}/>        
+        <MapComponent markers={markers} locArray={locArray} setLoaded={setLoaded}/>        
     );
 }

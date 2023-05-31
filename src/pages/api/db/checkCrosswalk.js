@@ -4,10 +4,14 @@ export default async function checkCrosswalk(req, res) {
     const { userId, markerId } = req.body;
 
     try {
-        console.log(markerId)
         const marker = await prisma.crosswalk.findUnique({
             where: {
                 id: markerId
+            },
+            include: {
+                _count: {
+                    select: { userVotes: true }
+                }
             }
         })
         const voted = await prisma.userVote.findFirst({
@@ -15,11 +19,14 @@ export default async function checkCrosswalk(req, res) {
                 userId: {
                     equals: userId
                 },
-                saunaId: {
-                    equals: markerId.toString()
+                crosswalkId: {
+                    equals: markerId
                 }
             }
         })
+
+        console.log("Marker:")
+        console.log(marker)
         if (!voted) {
             res.json({upvoted: false, marker: marker})
         } else {

@@ -10,13 +10,13 @@ export default function Custom404() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/crosswalk.svg" />
       </Head>
-      <div className="flex min-h-full flex-col bg-white pt-16 pb-12">
-        <main className="mx-auto flex w-full max-w-7xl flex-grow flex-col justify-center px-6 lg:px-8">
-          <div className="flex flex-shrink-0 justify-center">
+      <div className="flex flex-col min-h-full pt-16 pb-12 bg-white">
+        <main className="flex flex-col justify-center flex-grow w-full px-6 mx-auto max-w-7xl lg:px-8">
+          <div className="flex justify-center flex-shrink-0">
             <Link href="//-79.4005188,43.6622882,12" className="inline-flex">
               <span className="sr-only">Your Company</span>
               <img
-                className="h-12 w-auto"
+                className="w-auto h-12"
                 src="/crosswalk.svg"
                 alt=""
               />

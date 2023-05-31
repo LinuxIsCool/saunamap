@@ -16,7 +16,6 @@ model Post {
     createdAt DateTime @default(now())
     content String @db.VarChar(255)
     authorId String 
-
     @@index([authorId])
 }
 
@@ -28,22 +27,7 @@ model Crosswalk {
   longitude   Float
   address     String
   description String
-  votes       Int
-  createdAt   DateTime @default(now()) 
-  updatedAt   DateTime @default(now())
-  @@index([userId], name: "crosswalks.userId")
-}
-
-
-model Sauna {
-  id          Int      @id @default(autoincrement())
-  userId      String   // email from next auth
-  userName    String   // name from next auth
-  latitude    Float
-  longitude   Float
-  address     String
-  description String
-  votes       Int
+  userVotes   UserVote[]
   createdAt   DateTime @default(now()) 
   updatedAt   DateTime @default(now())
   @@index([userId], name: "crosswalks.userId")
@@ -51,6 +35,7 @@ model Sauna {
 
 model UserVote {
   id          Int      @id @default(autoincrement())
-  userId      String   @unique
-  saunaId     String   @unique
+  userId      String   
+  crosswalk   Crosswalk @relation(fields: [crosswalkId], references: [id])
+  crosswalkId Int 
 }

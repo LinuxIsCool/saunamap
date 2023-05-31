@@ -1,48 +1,38 @@
 import { prisma } from "../../../prisma";
+import { getAuth } from "@clerk/nextjs/server";
 
 export default async function upvoteCrosswalk(req, res) {
-    const { userId, markerId } = req.body;
+  const { userId, markerId } = req.body;
+
+  //const { userId_ } = getAuth(req);
+  //if (!userId_) {
+      //res.status(401).send('No permissions')
+      //return
+  //}
 
     try {
-        const update = await prisma.crosswalk.update({
+        const vote = await prisma.userVote.findFirst({
             where: {
-              id: markerId,
-            },
-            data: {
-              votes: {
-                increment: 1
-              }
-            },
-          })
-        
-        // Update uservote
-        const user = await prisma.userVote.findUnique({
-          where: {
-            userId: userId
+                userId: {
+                    equals: userId
+                },
+                crosswalkId: {
+                    equals: markerId
+                }
+            }
+        });
+      if (vote) {
+        res.status(400).send('Crosswalk alread upvoted.')
+      }
+      else {
+        const created = await prisma.userVote.create({
+          data : {
+            userId: userId,
+            crosswalkId: markerId,
           }
         })
-
-        if (user) {
-          await prisma.userVote.update({
-            where: {
-              userId: userId
-            },
-            data: {
-              upvoted: {
-                push: markerId
-              }
-            }
-          })
-        } else {
-          await prisma.userVote.create({
-            data: {
-              userId: userId,
-              saunaId: markerId.toString(),
-            }
-          })
-        }
-        
-        res.json(update);
+        res.json(created)
+      }
     } catch (error) {
         res.status(400).send(error.message);
     }

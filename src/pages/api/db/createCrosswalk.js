@@ -21,7 +21,6 @@ export default async function createCrosswalk(req, res) {
                 longitude: lng,
                 address: address,
                 description: description,
-                votes: 0,
                 createdAt: isoDate,
                 updatedAt: isoDate
             };
