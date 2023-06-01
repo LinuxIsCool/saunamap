@@ -19,7 +19,7 @@ model Post {
     @@index([authorId])
 }
 
-model Crosswalk {
+model Sauna {
   id          Int      @id @default(autoincrement())
   userId      String   // email from next auth
   userName    String   // name from next auth
@@ -30,12 +30,12 @@ model Crosswalk {
   userVotes   UserVote[]
   createdAt   DateTime @default(now()) 
   updatedAt   DateTime @default(now())
-  @@index([userId], name: "crosswalks.userId")
+  @@index([userId], name: "sauna.userId")
 }
 
 model UserVote {
   id          Int      @id @default(autoincrement())
   userId      String   
-  crosswalk   Crosswalk @relation(fields: [crosswalkId], references: [id])
-  crosswalkId Int 
+  sauna       Sauna @relation(fields: [saunaId], references: [id])
+  saunaId Int 
 }

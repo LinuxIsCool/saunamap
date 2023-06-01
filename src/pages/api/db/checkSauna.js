@@ -1,10 +1,10 @@
 import { prisma } from "../../../prisma";
 
-export default async function checkCrosswalk(req, res) {
+export default async function checkSauna(req, res) {
     const { userId, markerId } = req.body;
 
     try {
-        const marker = await prisma.crosswalk.findUnique({
+        const marker = await prisma.sauna.findUnique({
             where: {
                 id: markerId
             },
@@ -19,7 +19,7 @@ export default async function checkCrosswalk(req, res) {
                 userId: {
                     equals: userId
                 },
-                crosswalkId: {
+                saunaId: {
                     equals: markerId
                 }
             }

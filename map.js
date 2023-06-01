@@ -4,7 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import SearchBox from "./searchBox";
 import AuthModal from "./authModal";
 import axios from "axios";
-import SaunaPanel from "./saunaPanel";
+import CrosswalkPanel from "./crosswalkPanel";
 import { HeartIcon, LinkIcon, PaperAirplaneIcon, ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import MaxModal from "./maxModal";
@@ -84,7 +84,7 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
     setMarker(null)
   }
 
-  const checkSauna = async (sauna, isSignedIn) => {
+  const checkCrosswalk = async (crosswalk, isSignedIn) => {
     console.log("Test...")
     console.log("isSignedIn:");
     console.log(isSignedIn);
@@ -104,11 +104,11 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
       })
     } else {
       console.log("Not signed in.")
-      setPopupInfo({marker: sauna, upvoted: false})
+      setPopupInfo({marker: crosswalk, upvoted: false})
     }
   }
 
-  const handleUpvote = async (sauna) => {
+  const handleUpvote = async (crosswalk) => {
     if (!isSignedIn) {
       console.log('need auth')
       setModalOpen(true)
@@ -120,20 +120,20 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
 
     // If not voted yet, add a vote
     if (!popupInfo.upvoted) {
-      await axios.post("/api/db/upvoteSauna", {
+      await axios.post("/api/db/upvoteCrosswalk", {
         userId, markerId
       }).catch(error => {
         console.log(error.response.data)
       })
     } else {
       // If already voted, remove a vote
-      await axios.post("/api/db/downvoteSauna", {
+      await axios.post("/api/db/downvoteCrosswalk", {
         userId, markerId
       }).catch(error => {
         console.log(error.response.data)
       })
     }
-    checkSauna(sauna, isSignedIn)
+    checkCrosswalk(crosswalk, isSignedIn)
   }
   
   const copyLink = (info) => {
@@ -188,7 +188,7 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
             // Prevent autoclose
             e.originalEvent.stopPropagation();
             
-            checkSauna(marker, isSignedIn);
+            checkCrosswalk(marker, isSignedIn);
             mapRef.current?.flyTo({
               center: [marker.longitude, marker.latitude],
               zoom: 19,
@@ -199,7 +199,7 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
           <img className="w-10 h-10" src="/sauna2.png"/>
         </Marker>
       )),
-    [isSignedIn, checkSauna, markers]
+    [isSignedIn, checkCrosswalk, markers]
   );
 
   return (
@@ -325,7 +325,7 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
             )}
           </Map>
         </div>
-        <SaunaPanel open={panelOpen} setOpen={setPanelOpen} marker={marker} user={user} isSignedIn={isSignedIn} edit={false}/>
+        <CrosswalkPanel open={panelOpen} setOpen={setPanelOpen} marker={marker} user={user} isSignedIn={isSignedIn} edit={false}/>
         <AuthModal open={modalOpen} setOpen={setModalOpen} viewState={viewState}/>
         <MaxModal open={modalMaxOpen} setOpen={setMaxModalOpen}/>
         <Copied show={showCopied} setShow={setShowCopied}/>

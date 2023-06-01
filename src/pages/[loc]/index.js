@@ -5,7 +5,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { ArrowPathIcon } from "@heroicons/react/24/outline"
 import Layout from "../../components/layout"
-import Places from "../../components/crosswalkForm"
+import Places from "../../components/saunaForm"
 import { authOptions } from "../api/auth/[...nextauth]"
 
 export default function Home({ markers, locArray }) {
@@ -26,10 +26,10 @@ export default function Home({ markers, locArray }) {
     return (
     <>
       <Head>
-        <title>crossywalk - Suggest your own crosswalk</title>
-        <meta name="description" content="Suggest your own crosswalk" />
-        <meta property="og:title" content="Crossywalk"/>
-        <meta property="og:description" content="Suggest your own crosswalk"/>
+        <title>Saunaweb - Suggest your own sauna</title>
+        <meta name="description" content="Suggest your own sauna" />
+        <meta property="og:title" content="Saunaweb"/>
+        <meta property="og:description" content="Suggest your own sauna"/>
         <meta property="og:image" content="/preview.png" />
       </Head>
       
@@ -62,7 +62,7 @@ export async function getServerSideProps(context) {
   // // OFFLINE DEV
   // const markers = []
 
-  const markers = await prisma.crosswalk.findMany({
+  const markers = await prisma.sauna.findMany({
       include: {
           _count: {
               select: { userVotes: true }

@@ -27,7 +27,7 @@ export default async function createCrosswalk(req, res) {
     console.log(data)
 
     try {
-        const result = await prisma.crosswalk.create({
+        const result = await prisma.sauna.create({
             data: data
           })
         res.json(result);

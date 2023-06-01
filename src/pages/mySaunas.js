@@ -7,7 +7,7 @@ import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 import { MapIcon } from "@heroicons/react/24/outline";
 import { Menu, Transition } from '@headlessui/react'
 import DeleteModal from "../components/deleteModal";
-import CrosswalkPanel from "../components/crosswalkPanel";
+import SaunaPanel from "../components/saunaPanel";
 import { useUser } from "@clerk/nextjs";
 import { getAuth, clerkClient } from "@clerk/nextjs/server";
 
@@ -15,42 +15,42 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function MyCrosswalks({ crosswalkData }) {
-  console.log("MyCrosswalks");
+export default function MySaunas({ saunaData }) {
+  console.log("MySaunas");
     const {user} = useUser()    
     const { isLoaded: userLoaded, isSignedIn } = useUser()
     const [deleteOpen, setDeleteOpen] = useState(false)
     const [panelOpen, setPanelOpen] = useState(false)
-    const [currCrosswalk, setCurrCrosswalk] = useState(null)
+    const [currSauna, setCurrSauna] = useState(null)
 
-    const handleDelete = (crosswalk) => {
-      setCurrCrosswalk(crosswalk)
+    const handleDelete = (sauna) => {
+      setCurrSauna(sauna)
       setDeleteOpen(true)
     }
 
-    const handleEdit = (crosswalk) => {
-      setCurrCrosswalk(crosswalk)
+    const handleEdit = (sauna) => {
+      setCurrSauna(sauna)
       setPanelOpen(true)
     }
 
     return (
       <>
         <Head>
-          <title>My Crosswalks - crossywalk</title>
-          <meta name="description" content="Suggest your own crosswalk" />
+          <title>My Saunas - crossywalk</title>
+          <meta name="description" content="Suggest your own sauna" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="sauna.png" />
         </Head>
         <Layout main={
             <div className="h-full px-6 pt-20 lg:pt-6 bg-slate-100">
-                <h1 className="text-2xl">My Crosswalks</h1>
+                <h1 className="text-2xl">My Saunas</h1>
                 <ul role="list" className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 auto-rows-max">
 
-                {crosswalkData.map((crosswalk) => (
-                  <li key={crosswalk.id} className="bg-white rounded-lg shadow col-span-1">
+                {saunaData.map((sauna) => (
+                  <li key={sauna.id} className="bg-white rounded-lg shadow col-span-1">
                   <div className="flex flex-col h-full p-4 gap-4">
                     <div className="flex justify-between">
-                      <h1>{crosswalk.address}</h1>
+                      <h1>{sauna.address}</h1>
                       <Menu as="div" className="relative inline-block text-left">
                         <div>
                           <Menu.Button className="flex items-center text-gray-400 bg-gray-100 rounded-full hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100">
@@ -77,7 +77,7 @@ export default function MyCrosswalks({ crosswalkData }) {
                                     active ? 'bg-indigo-600 text-white' : 'text-gray-700',
                                     'block w-full px-4 py-2 text-left text-sm flex'
                                   )}
-                                  onClick={() => window.location.replace(`/${crosswalk.longitude},${crosswalk.latitude},18`)}
+                                  onClick={() => window.location.replace(`/${sauna.longitude},${sauna.latitude},18`)}
                                 >
                                   <p className="my-auto">Show on map</p>
                                   <MapIcon className="w-6 h-6 pl-2"/>
@@ -91,7 +91,7 @@ export default function MyCrosswalks({ crosswalkData }) {
                                     active ? 'bg-indigo-100 text-gray-900' : 'text-gray-700',
                                     'block w-full px-4 py-2 text-left text-sm'
                                   )}
-                                  onClick={() => handleEdit(crosswalk)}
+                                  onClick={() => handleEdit(sauna)}
                                 >
                                   Edit
                                 </button>
@@ -104,7 +104,7 @@ export default function MyCrosswalks({ crosswalkData }) {
                                       active ? 'bg-red-500 text-white' : 'text-red-500',
                                       'block w-full px-4 py-2 text-left text-sm'
                                     )}
-                                    onClick={() => handleDelete(crosswalk)}
+                                    onClick={() => handleDelete(sauna)}
                                   >
                                     Delete
                                   </button>
@@ -115,11 +115,11 @@ export default function MyCrosswalks({ crosswalkData }) {
                         </Transition>
                       </Menu>
                     </div>
-                    <p className="text-sm">{crosswalk.description}</p>
-                    {crosswalk._count.userVotes !== 1?
-                      <p className="mt-auto">{crosswalk._count.userVotes} likes</p>
+                    <p className="text-sm">{sauna.description}</p>
+                    {sauna._count.userVotes !== 1?
+                      <p className="mt-auto">{sauna._count.userVotes} likes</p>
                       :
-                      <p className="mt-auto">{crosswalk._count.userVotes} like</p>
+                      <p className="mt-auto">{sauna._count.userVotes} like</p>
                     }
                     
                   </div>
@@ -127,10 +127,10 @@ export default function MyCrosswalks({ crosswalkData }) {
                   </li>
                 ))}
                 </ul>
-                {currCrosswalk && 
+                {currSauna && 
                   <div>
-                    <DeleteModal key={currCrosswalk.id} open={deleteOpen} setOpen={setDeleteOpen} marker={currCrosswalk}/>
-                    <CrosswalkPanel key={currCrosswalk.id} open={panelOpen} setOpen={setPanelOpen} marker={currCrosswalk} isSignedIn={isSignedIn} user={user} edit={true}/>
+                    <DeleteModal key={currSauna.id} open={deleteOpen} setOpen={setDeleteOpen} marker={currSauna}/>
+                    <SaunaPanel key={currSauna.id} open={panelOpen} setOpen={setPanelOpen} marker={currSauna} isSignedIn={isSignedIn} user={user} edit={true}/>
                   </div>
                 }
                 
@@ -157,7 +157,7 @@ export async function getServerSideProps(context) {
     const user = userId ? await clerkClient.users.getUser(userId) : undefined;
   console.log(user);
 
-      const data = await prisma.crosswalk.findMany({
+      const data = await prisma.sauna.findMany({
         where: {
             userId: user.emailAddresses[0].emailAddress
         },
@@ -201,8 +201,8 @@ export async function getServerSideProps(context) {
     return {
       props: {
         userId,
-        crosswalkData: JSON.parse(JSON.stringify(data)),
-        // crosswalkData: offlineData
+        saunaData: JSON.parse(JSON.stringify(data)),
+        // saunaData: offlineData
       },
     }
   }

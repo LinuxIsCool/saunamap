@@ -11,9 +11,9 @@ export default function Copied({ show, setShow }) {
       {/* Global notification live region, render this permanently at the end of the document */}
       <div
         aria-live="assertive"
-        className="pointer-events-none z-30 fixed inset-0 flex items-end px-4 py-6 lg:items-start lg:p-6"
+        className="fixed inset-0 z-30 flex items-end px-4 py-6 pointer-events-none lg:items-start lg:p-6"
       >
-        <div className="flex w-full flex-col items-center space-y-4 lg:items-end">
+        <div className="flex flex-col items-center w-full space-y-4 lg:items-end">
           {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
           <Transition
             show={show}
@@ -25,15 +25,15 @@ export default function Copied({ show, setShow }) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+            <div className="w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-lg pointer-events-auto ring-1 ring-black ring-opacity-5">
               <div className="p-4">
                 <div className="flex items-start">
                   <div className="flex-shrink-0">
-                    <ClipboardDocumentCheckIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
+                    <ClipboardDocumentCheckIcon className="w-6 h-6 text-green-400" aria-hidden="true" />
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">
                     <p className="text-sm font-medium text-gray-900">Link copied!</p>
-                    <p className="mt-1 text-sm text-gray-500">Anyone with the link can view this crosswalk.</p>
+                    <p className="mt-1 text-sm text-gray-500">Anyone with the link can view this sauna.</p>
                   </div>
                  
                 </div>

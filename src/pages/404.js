@@ -5,8 +5,8 @@ export default function Custom404() {
   return (
     <>
       <Head>
-        <title>Error - crossywalk</title>
-        <meta name="description" content="Error 404 - crossywalk" />
+        <title>Error - saunaweb</title>
+        <meta name="description" content="Error 404 - saunaweb" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/sauna.png" />
       </Head>

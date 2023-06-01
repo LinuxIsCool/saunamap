@@ -7,8 +7,8 @@ export default function About() {
   return (
     <>
         <Head>
-            <title>About - crossywalk</title>
-            <meta name="description" content="Suggest your own crosswalk" />
+            <title>About - saunaweb</title>
+            <meta name="description" content="Suggest your own sauna" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/sauna.png" />
             </Head>
@@ -21,16 +21,16 @@ export default function About() {
                 
                 <div className="flex flex-col pt-6 max-w-prose gap-4">
                     <p className="text-lg">
-                        Crossywalk is a place for you to suggest and vote on 
-                        crosswalks that <span className="font-bold">you think should exist.</span>
+                        Saunaweb is a place for you to suggest and vote on 
+                        saunas that <span className="font-bold">you think should exist.</span>
                     </p>
                     <p>
                         Every city/suburb/town has those spots. The places where people need to cross a street, 
-                        know that it's dangerous, but do it anyway - because the nearest crosswalk is 5 minutes away (if you're lucky).
+                        know that it's dangerous, but do it anyway - because the nearest sauna is 5 minutes away (if you're lucky).
                     </p>
                     <p>
                         My hope is that aggregating these suggestions will make it obvious which places
-                        <span className="italic"> need </span>new crosswalks - and hopefully make them a reality.
+                        <span className="italic"> need </span>new saunas - and hopefully make them a reality.
                     </p>
                     
                     <Link

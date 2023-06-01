@@ -30,8 +30,8 @@ export default function Layout({ main }) {
                         className="flex mx-4 lg:mx-5 gap-3" 
                         href="/-79.4005188,43.6622882,11"
                     >              
-                        <img src="/crosswalk.svg" className='my-auto h-7 w-7 lg:h-9 lg:w-9' alt="Crosswalk Icon."/>
-                        <h1 className='my-auto text-yellow-500 lg:text-xl font-fredoka-one'>crossywalk</h1>
+                        <img src="/sauna.svg" className='my-auto h-7 w-7 lg:h-9 lg:w-9' alt="Sauna Icon."/>
+                        <h1 className='my-auto text-yellow-500 lg:text-xl font-fredoka-one'>saunaweb</h1>
                     </Link>
                     
                     <nav className="flex-1 px-2 lg:mt-5 space-y-1 lg:ml-0 " aria-label="Sidebar">
@@ -66,9 +66,9 @@ export default function Layout({ main }) {
                                     active ? 'bg-indigo-600 text-white' : 'text-gray-700',
                                     'block w-full px-4 py-2 text-left text-sm flex'
                                   )}
-                                  href="/myCrosswalks"
+                                  href="/mySaunas"
                                 >
-                                  <p className="my-auto">My Crosswalks</p>
+                                  <p className="my-auto">My Saunas</p>
                                   <QueueListIcon className="w-6 h-6 pl-2"/>
                                 </Link>
                                 )}
@@ -108,10 +108,10 @@ export default function Layout({ main }) {
                         {/* desktop view large */}
                         <div className='flex justify-between hidden h-full md:flex lg:flex-col'>
                             <Link className="flex items-center px-2 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white group rounded-md"
-                                href='/myCrosswalks'
+                                href='/mySaunas'
                             >
                                 <QueueListIcon className='hidden w-6 h-6 mr-2 lg:block'/>
-                                <p>My Crosswalks</p>
+                                <p>My Saunas</p>
                             </Link>
                             
                             {/* <div className='flex flex-row lg:flex-col gap-2'> */}
