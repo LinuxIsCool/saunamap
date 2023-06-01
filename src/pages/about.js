@@ -25,11 +25,11 @@ export default function About() {
                         saunas that <span className="font-bold">you think should exist.</span>
                     </p>
                     <p>
-                        Every city/suburb/town has those spots. The places where people need to cross a street, 
-                        know that it's dangerous, but do it anyway - because the nearest sauna is 5 minutes away (if you're lucky).
+                        Every city/suburb/town has those spots. The places where people need to go on vacation
+                       - because the nearest sauna should always be less than 5 minutes away.
                     </p>
                     <p>
-                        My hope is that aggregating these suggestions will make it obvious which places
+                        By aggregating these suggestions we will make it obvious which places
                         <span className="italic"> need </span>new saunas - and hopefully make them a reality.
                     </p>
                     
@@ -40,7 +40,7 @@ export default function About() {
                         <p className="text-align-center">Get started</p>
                     </Link>
                     <p className="mt-6 text-sm italic text-gray-500">
-                        Made by <a className="text-indigo-700 hover:text-indigo-900" href="https://hudsonyuen.com" target="_blank" rel="noreferrer">Hudson</a>
+                        Made by <a className="text-indigo-700 hover:text-indigo-900" href="https://westcoastbathhouse.com" target="_blank" rel="noreferrer">West Coast Bathhouse</a>
                     </p>
                 </div>
             </div>

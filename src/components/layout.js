@@ -140,10 +140,10 @@ export default function Layout({ main }) {
                             </Link>
                             <button 
                                 className="flex items-center px-2 py-2 mr-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white group rounded-md"
-                                onClick={() => signIn("google", {callbackUrl: '/'})}
+                                
                             >
                                 <ArrowRightOnRectangleIcon className='hidden w-6 h-6 mr-2 lg:block'/>
-                                <p className=''>Login</p>
+                                <SignInButton/>
                                 <ArrowRightOnRectangleIcon className='w-6 h-6 ml-2 -mr-2 lg:hidden'/>
                                 
                             </button>
