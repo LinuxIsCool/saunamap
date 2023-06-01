@@ -28,9 +28,9 @@ export default function Layout({ main }) {
                 <div className="flex w-full lg:flex-col lg:flex-1 lg:pt-5 lg:pb-4">
                     <Link 
                         className="flex mx-4 lg:mx-5 gap-3" 
-                        href="/-79.4005188,43.6622882,11"
-                    >              
-                        <img src="/sauna.svg" className='my-auto h-7 w-7 lg:h-9 lg:w-9' alt="Sauna Icon."/>
+                        href="/-123.419159,48.430321,11"
+                    > 
+                        <img src="/sauna.png" className='my-auto h-7 w-7 lg:h-9 lg:w-9' alt="Sauna Icon."/>
                         <h1 className='my-auto text-yellow-500 lg:text-xl font-fredoka-one'>saunaweb</h1>
                     </Link>
                     
