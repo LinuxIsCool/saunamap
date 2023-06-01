@@ -25,8 +25,6 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
   const [addActive, setAddActive] = useState(false);
   const [cursorType, setCursorType] = useState('pointer')
   const [viewState, setViewState] = useState({
-    // longitude: -79.4005188,
-    // latitude: 43.6622882,
     longitude: locArray[0],
     latitude: locArray[1],
     zoom: locArray[2]
@@ -198,7 +196,7 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
             })
           }}
         >
-          <img className="w-10 h-10" src="/crosswalk.svg"/>
+          <img className="w-10 h-10" src="/sauna2.png"/>
         </Marker>
       )),
     [isSignedIn, checkCrosswalk, markers]
@@ -286,7 +284,7 @@ export default function MapComponent({ markers, locArray, setLoaded }) {
             {marker && 
               <div>
                 <Marker longitude={marker.lng} latitude={marker.lat} anchor="center">
-                  <img className="w-10 h-10" src="/crosswalk.svg"/>
+                  <img className="w-10 h-10" src="sauna.png"/>
                 </Marker>
               </div>
             }

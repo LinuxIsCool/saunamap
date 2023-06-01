@@ -11,7 +11,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/-79.4005188,43.6622882,12',
+        destination: '/-123.361940,48.408510',
         permanent: true,
       },
     ]

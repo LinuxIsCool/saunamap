@@ -39,7 +39,7 @@ export default function MyCrosswalks({ crosswalkData }) {
           <title>My Crosswalks - crossywalk</title>
           <meta name="description" content="Suggest your own crosswalk" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="/crosswalk.svg" />
+          <link rel="icon" href="sauna.png" />
         </Head>
         <Layout main={
             <div className="h-full px-6 pt-20 lg:pt-6 bg-slate-100">
