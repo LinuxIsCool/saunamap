@@ -1,9 +1,9 @@
-import { prisma } from "../../../src/prisma";
+import { prisma } from "../../../prisma";
 
-export default async function getAllCrosswalks(req, res) {
+export default async function getAllSaunas(req, res) {
     
 
-    const result = await prisma.crosswalk.findMany({
+    const result = await prisma.sauna.findMany({
         
       })
 

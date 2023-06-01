@@ -36,7 +36,7 @@ export default function MySaunas({ saunaData }) {
     return (
       <>
         <Head>
-          <title>My Saunas - crossywalk</title>
+          <title>My Saunas - saunaweb</title>
           <meta name="description" content="Suggest your own sauna" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="sauna.png" />

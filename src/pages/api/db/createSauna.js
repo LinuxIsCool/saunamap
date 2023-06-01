@@ -1,6 +1,6 @@
 import { prisma } from "../../../prisma";
 
-export default async function createCrosswalk(req, res) {
+export default async function createSauna(req, res) {
 
     const { 
         userId, 

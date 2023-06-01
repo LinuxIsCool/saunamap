@@ -1,15 +1,15 @@
-import { prisma } from "../../../src/prisma";
+import { prisma } from "../../../prisma";
 
-export default async function deleteCrosswalk(req, res) {
+export default async function deleteSauna(req, res) {
     const { markerId } = req.query;
 
     try {
-        const deleteCrosswalk = await prisma.crosswalk.delete({
+        const deleteSauna = await prisma.sauna.delete({
             where: {
                 id: markerId
             }
           })
-        res.json(deleteCrosswalk);
+        res.json(deleteSauna);
     } catch (error) {
         res.status(400).send(error.message);
     }
