@@ -1,4 +1,4 @@
-import Layout from "../src/components/layout"
+import Layout from "../components/layout"
 import Head from "next/head"
 import Link from "next/link"
 
