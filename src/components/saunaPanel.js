@@ -134,7 +134,7 @@ export default function SaunaPanel({ open, setOpen, marker, user, isSignedIn, ed
                                     id="address"
                                     name="address"
                                     className="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                    placeholder="e.g. intersection of Avenue and Cumberland"
+                                    placeholder="e.g. Platform by the beach on North Pender Island."
                                     value={form.address}
                                     onChange={handleChange}
                                     required
@@ -153,7 +153,7 @@ export default function SaunaPanel({ open, setOpen, marker, user, isSignedIn, ed
                                     name="description"
                                     rows={3}
                                     className="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                    placeholder="e.g. lots of people cross from Cumberland to get breakfast at the Hyatt and cars are absolutely flooring it down Avenue"
+                                    placeholder="e.g. This is an active, bustling location for tourists. There are great shops located near by and it's the perfect place to jump in the ocean!"
                                     value={form.description}
                                     onChange={handleChange}
                                   />
